@@ -1,13 +1,24 @@
-#include "awshell.h"
+#include "holberton.h"
+
 /**
- * _getline - custom getline
- * @lineptr: variable to store the addres of the buffer
- * @n: size in bytes
- * @stream: buffer to be read
- * Return: Numbers character read
+ * _getline - puts input from user into buffer line
+ * @fp: buffer for user input
+ * Return: buffer with user input
  */
-int _getline(char **lineptr, size_t *n, FILE *stream)
+char *_getline(FILE *fp)
 {
-	(void)lineptr, (void)n, (void)stream;
-	return (0);
+	char *line;
+	ssize_t read;
+	size_t len;
+
+	line = NULL;
+	len = 0;
+	read = getline(&line, &len, fp);
+	if (read == -1)
+	{
+		free(line);
+		exit(EXIT_SUCCESS);
+	}
+
+	return (line);
 }

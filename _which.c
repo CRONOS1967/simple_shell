@@ -1,57 +1,51 @@
-#include "awshell.h"
-
+#include "holberton.h"
 /**
- * _which - creates a full path for a command
- * @buff: arguments
- * Return: Always 0.
- *                     _
- *     /\             | |
- *    /  \   _ __   __| |_   _
- *   / /\ \ | '_ \ / _` | | | |
- *  / ____ \| | | | (_| | |_| |
- * /_/    \_\_|_|_|\__, |\__, | _   _
- * \ \        / (_)   | | __/ || \ | |
- *  \ \  /\  / / _ ___| ||___/ |  \| |
- *   \ \/  \/ / | / __| __/ _ \| . ` |
- *    \  /\  /  | \__ \ || (_) | |\  |
- *     \/  \/   |_|___/\__\___/|_| \_| |- Nov 2020 -|
- *
+ * _which - searches directories in PATH variable for command
+ * @command: to search for
+ * @fullpath: full path of command to execute
+ * @path: full PATH variable
+ * Return: pointer to full_path
  */
-char *_which(char *buff)
+char *_which(char *command, char *fullpath, char *path)
 {
-	struct stat st;
-	p_list *head = NULL, *copyhead = NULL;
-	unsigned int totalsize = 0, size1 = 0, size2 = 0;
-	char *fullpath = NULL;
+	unsigned int command_length, path_length, original_path_length;
+	char *path_copy, *token;
 
-	if (buff == NULL || stat(buff, &st) == 0 || buff[0] == '/')
-		return (_strdup(buff));
-	head = path_list();
-	copyhead = head;
-	size1 = _strlen(buff);
-	while (copyhead != NULL)
+	command_length = _strlen(command);
+	original_path_length = _strlen(path);
+	path_copy = malloc(sizeof(char) * original_path_length + 1);
+	if (path_copy == NULL)
 	{
-		size2 = _strlen((*copyhead).str);
-		totalsize = size1 + size2;
-
-		fullpath = malloc(sizeof(char) * (totalsize + 3));
+		errors(3);
+		return (NULL);
+	}
+	_strcpy(path_copy, path);
+	/* copy PATH directory + command name and check if it exists */
+	token = strtok(path_copy, ":");
+	if (token == NULL)
+		token = strtok(NULL, ":");
+	while (token != NULL)
+	{
+		path_length = _strlen(token);
+		fullpath = malloc(sizeof(char) * (path_length + command_length) + 2);
 		if (fullpath == NULL)
 		{
+			errors(3);
 			return (NULL);
 		}
-		_memcpy(fullpath, (*copyhead).str, size2);
-		_memcpy(fullpath + size2, "/", 1);
-		_memcpy(fullpath + size2 + 1, buff, size1 + 1);
-		fullpath[totalsize + 2] = '\0';
-
-		if (stat(fullpath, &st) == 0)
+		_strcpy(fullpath, token);
+		fullpath[path_length] = '/';
+		_strcpy(fullpath + path_length + 1, command);
+		fullpath[path_length + command_length + 1] = '\0';
+		if (access(fullpath, X_OK) != 0)
 		{
-			free_list(head);
-			return (fullpath);
+			free(fullpath);
+			fullpath = NULL;
+			token = strtok(NULL, ":");
 		}
-		free_single(fullpath);
-		copyhead = (*copyhead).next;
+		else
+			break;
 	}
-	free_list(head);
-	return (NULL);
+	free(path_copy);
+	return (fullpath);
 }
