@@ -1,56 +1,117 @@
-.TH HSH 1
+.TH simple_shell 1 "23 November 2020" "0.1 beta" "simple_shell man page"
 .SH NAME
-hsh \- Holberton Shell	
+.B hsh - fcommand line interpreter (shell)
 .SH SYNOPSIS
-.B hsh
-[command] [options ...]
-.SH COPYRIGHT
-hsh \- is a holberton school first trimester project
-.SH DESCRIPTION
-.B hsh
-is a shell command interpreter that executes command read from the standard input or from file.
-.B hsh
-is intend to be a clone of the standard command interpreter of 
-.B Unix
-and 
-.B Unix-like
-system.
-.SH OPTIONS
-A  simple command is a sequence of optional variable assignments followed by blank-separated words and redirections, 
-and terminated by a control operator.  The first word specifies the command to be
-executed, and is passed as argument zero.  The remaining words are passed as arguments to the invoked command.
-.PP
-The return value of a simple command is its exit status, or 128+n if the command is terminated by signal n.
-.SS
-Piplines
-A pipeline is a sequence of one or more commands separated by one of the control operators | or |&.  The format for a pipeline is:
-.PP
-[command [..ARGS]] [| - |&] [command2 [..ARGS]]
-.PP
-The standard output of command is connected via a pipe to the standard input of command2.  This connection is performed before any redirections specified by the command (see REDIRECTION below).   If
-|&  is  used,  command's standard error, in addition to its standard output, is connected to command2's standard input through the pipe; it is shorthand for 2>&1 |.  This implicit redirection of the
-standard error to the standard output is performed after any redirections specified by the command.
-.SS Lists
+.IP
+.B ./hsh
+.IP
+.I (no options yet)
 
-A list is a sequence of one or more pipelines separated by one of the operators ;, &, &&, or ||, and optionally terminated by one of ;, &, or <newline>.
-Of these list operators, && and || have equal precedence, followed by ; and &, which have equal precedence.
-A sequence of one or more newlines may appear in a list instead of a semicolon to delimit commands.
-.PP
-If  a command is terminated by the control operator &, the shell executes the command in the background in a subshell.  The shell does not wait for the command to finish, and the return status is 0.
-Commands separated by a ; are executed sequentially; the shell waits for each command to terminate in turn.  The return status is the exit status of the last command executed.
-AND and OR lists are sequences of one or more pipelines separated by the && and || control operators, respectively.  AND and OR lists are executed with left associativity.  An AND list has the form
-.PP
-command1 && command2
-.PP
-command2 is executed if, and only if, command1 returns an exit status of zero.
-.PP
-An OR list has the form:
-.PP
-command1 || command2
-.PP
-command2 is executed if and only if command1 returns a non-zero exit status.  The return status of AND and OR lists is the exit status of the last command executed in the list.
+.SH DESCRIPTION
+
+simple_shell is a command line interpreter, or shell, in the tradition of the first Unix shell written by Ken Thompson in 1971. This shell is intentionally minimalistic, yet includes the basic functionality of a traditional Unix-like command line user interface.
+Standard functions and system calls employed in simple_shell include:
+.B  access, execve, exit, fork, free, fstat, getline, malloc, perror, signal, stat, wait, write.
+
+.SH Overview
+
+Reading from either the terminal or files, simple_shell interprets and executes commands.
+
+.SH Invocation
+
+Compile simple_shell with the GNU Compiler Collection 4.8 and the flags specified below.
+.P
+.RS
+.B $ gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
+.P
+.RE
+simple_shell can be run in interactive mode by typing the following command." Note that the prompt ('aw$') will appear. You are now inside the interactive mode.
+.P
+.RS
+.B $ ./hsh
+.P
+.RE
+simple_shell can be run in non-interactive mode through the use of shell scripts, using pipes ('|'):
+.P
+.RS
+.B echo 'ls' | ./hsh
+
+.SH EXECUTABLES
+
+Example of executables:
+.IP
+.br
+.\&
+.RS
+\&aw$ echo "Test me out"
+.br
+\&"Test me out"
+.br
+\&aw$
+
+.SH BUILTINS
+
+The following builtin commands are supported:
+
+.IT
+.B env
+- prints the environment variables
+
+.B exit
+- exits the program
+
+
+Example of builtin command:
+.IP
+.br
+.\&
+.RS
+.B \&aw$
+env
+.br
+\&TERM=xterm-256color
+.br
+\&SHELL=/bin/bash
+.br
+\&SSH_CLIENT=10.0.2.2 50046 22
+.br
+\&OLDPWD=/home/vagrant
+.br
+\&SSH_TTY=/dev/pts/0
+.br
+\&LC_ALL=en_US
+.br
+\&USER=vagrant
+.br
+\&MAIL=/var/mail/vagrant
+.br
+\&PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+.br
+\&PWD=/home/vagrant/simple_shell
+.br
+\&LANG=en_US.UTF-8
+.br
+\&SHLVL=1
+.br
+\&HOME=/home/vagrant
+.br
+\&LOGNAME=vagrant
+.br
+\&SSH_CONNECTION=10.0.2.2 50046 10.0.2.15 22
+.br
+\&LESSOPEN=| /usr/bin/lesspipe %s
+.br
+\&LESSCLOSE=/usr/bin/lesspipe %s %s
+br.
+\&_=./hsh
+.br
+.B \&aw$
+
+
+.SH BUGS
+No known bugs (jk).
+
+.SH DEVELOPER(s) NOTES
+
 .SH AUTHORS
-Sebri Issam \- Holberton School Software Engineer Student
-.SH VERSIONS
-.B hsh
-V1.0.0
+Andres Lopez, Wiston Venera
