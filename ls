@@ -1,11 +1,8 @@
 #!/bin/bash
 #
-# run /bin/ls many times, with a lot of spaces everywhere
+# simple test with ls to check if the shell can find ls in the PATH
 
-command="/bin/ls
-     /bin/ls
-/bin/ls     
-  /bin/ls     "
+command="ls"
 tmp_file="checker_tmp_file_$RANDOM"
 
 # clean up
@@ -22,7 +19,7 @@ $SLEEP $SLEEPSECONDS
 
 # check the result
 nmatch=`cat $OUTPUTFILE | grep -c "$tmp_file"`
-if [ $nmatch -eq 4 ]; then
+if [ $nmatch -eq 1 ]; then
 	   print_ok
 else
 	   print_ko
@@ -31,4 +28,3 @@ fi
 # clean up
 stop_shell
 rm -f $tmp_file
-    

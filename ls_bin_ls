@@ -1,10 +1,17 @@
 #!/bin/bash
 #
-# run /bin/ls 3 times
+# run a mix of ls and /bin/ls many times
 
-command="/bin/ls
+command="ls
+ls
+ls
 /bin/ls
-/bin/ls"
+ls
+ls
+ls
+/bin/ls
+ls
+ls"
 tmp_file="checker_tmp_file_$RANDOM"
 
 # clean up
@@ -21,7 +28,7 @@ $SLEEP $SLEEPSECONDS
 
 # check the result
 nmatch=`cat $OUTPUTFILE | grep -c "$tmp_file"`
-if [ $nmatch -eq 3 ]; then
+if [ $nmatch -eq 10 ]; then
 	   print_ok
 else
 	   print_ko

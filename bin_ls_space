@@ -1,17 +1,11 @@
 #!/bin/bash
 #
-# run a mix of ls and /bin/ls many times
+# run /bin/ls many times, with a lot of spaces everywhere
 
-command="ls
-ls
-ls
-/bin/ls
-ls
-ls
-ls
-/bin/ls
-ls
-ls"
+command="/bin/ls
+     /bin/ls
+/bin/ls     
+  /bin/ls     "
 tmp_file="checker_tmp_file_$RANDOM"
 
 # clean up
@@ -28,7 +22,7 @@ $SLEEP $SLEEPSECONDS
 
 # check the result
 nmatch=`cat $OUTPUTFILE | grep -c "$tmp_file"`
-if [ $nmatch -eq 10 ]; then
+if [ $nmatch -eq 4 ]; then
 	   print_ok
 else
 	   print_ko
