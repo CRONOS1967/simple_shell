@@ -92,4 +92,4 @@ void array_rev(char *arr, int len)
 void index_cmd(sh_t *data)
 {
 	data->index += 1;
-
+}
