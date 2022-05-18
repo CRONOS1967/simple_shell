@@ -1,91 +1,117 @@
-.TH Ghost 1 "20 April 2017" "version 1.0" "Programmer's Manual"
-
-
-
+.TH simple_shell 1 "23 November 2020" "0.1 beta" "simple_shell man page"
 .SH NAME
-.B Ghost Shell (hsh)
-- command interpreter (shell)
-
-
+.B hsh - fcommand line interpreter (shell)
 .SH SYNOPSIS
-.PP
+.IP
 .B ./hsh
+.IP
+.I (no options yet)
 
-
-
-.PP
-.B 
 .SH DESCRIPTION
-The ghost shell is a command that reads lines from either a file or the termi- \
-nal, interprets them, and generally executes other commands. It is the \ 
-program that is running when a user logs into the system. The shell implements a language \ 
-that has flow control contructs, a macro facility that provides a variety of features in addition to data \storage, along withe built in history and line editing capabilities. It also has features to \
-aid interactive use and has the advantage that the interpretative language is common to both interactive\ and non-interactive use (shell scripts). Commands can be typed directly to the running shell or can be put\ into a file and the file can be executed directly by the shell.
-.PP
-.SH EXAMPLE:
-$PATH:
-.PP
-/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:
+
+simple_shell is a command line interpreter, or shell, in the tradition of the first Unix shell written by Ken Thompson in 1971. This shell is intentionally minimalistic, yet includes the basic functionality of a traditional Unix-like command line user interface.
+Standard functions and system calls employed in simple_shell include:
+.B  access, execve, exit, fork, free, fstat, getline, malloc, perror, signal, stat, wait, write.
+
+.SH Overview
+
+Reading from either the terminal or files, simple_shell interprets and executes commands.
+
+.SH Invocation
+
+Compile simple_shell with the GNU Compiler Collection 4.8 and the flags specified below.
+.P
+.RS
+.B $ gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
+.P
+.RE
+simple_shell can be run in interactive mode by typing the following command." Note that the prompt ('aw$') will appear. You are now inside the interactive mode.
+.P
+.RS
+.B $ ./hsh
+.P
+.RE
+simple_shell can be run in non-interactive mode through the use of shell scripts, using pipes ('|'):
+.P
+.RS
+.B echo 'ls' | ./hsh
+
+.SH EXECUTABLES
+
+Example of executables:
+.IP
+.br
+.\&
+.RS
+\&aw$ echo "Test me out"
+.br
+\&"Test me out"
+.br
+\&aw$
+
+.SH BUILTINS
+
+The following builtin commands are supported:
+
+.IT
+.B env
+- prints the environment variables
+
+.B exit
+- exits the program
 
 
+Example of builtin command:
+.IP
+.br
+.\&
+.RS
+.B \&aw$
+env
+.br
+\&TERM=xterm-256color
+.br
+\&SHELL=/bin/bash
+.br
+\&SSH_CLIENT=10.0.2.2 50046 22
+.br
+\&OLDPWD=/home/vagrant
+.br
+\&SSH_TTY=/dev/pts/0
+.br
+\&LC_ALL=en_US
+.br
+\&USER=vagrant
+.br
+\&MAIL=/var/mail/vagrant
+.br
+\&PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+.br
+\&PWD=/home/vagrant/simple_shell
+.br
+\&LANG=en_US.UTF-8
+.br
+\&SHLVL=1
+.br
+\&HOME=/home/vagrant
+.br
+\&LOGNAME=vagrant
+.br
+\&SSH_CONNECTION=10.0.2.2 50046 10.0.2.15 22
+.br
+\&LESSOPEN=| /usr/bin/lesspipe %s
+.br
+\&LESSCLOSE=/usr/bin/lesspipe %s %s
+br.
+\&_=./hsh
+.br
+.B \&aw$
 
-.PP
-Ghost shell has two builtinin commands it also integrates with other commands \
-that can be located in the PATH. The output of ghost shell is to replicate \
-exactly as the shell 'sh' or 'bash'.
-.PP
-.B $ man bash
-. Ghost Shell\
-The ghost shell takes commands from files, shell scripts and user input in both interactive or non-interactive mode.
 
-.SH INITIALIZATION
-To use the ghost shell the user needs to compile \
-using: gcc. The run the output file by calling it whether \
-by the output name it was given. 
-.PP
-.B EX: $ ./some_name or $ a./a.out.\
-.PP
-.SH The ghost shell will compile with the following:
-gcc -Wall -Wextra -Werror -pedantic *.c -o hsh
-
-
-.PP
-If the user inputs piplines or calls  non-interactive mode the ghost shell should\
-funciton and execute said commands. An example of non-interactive mode input:
-.PP
-.B $ echo 'ls -a' | ./hsh
-.PP
-.PP
-.RE 
-.SH Another example of non interactive mode:
-.PP
-.B $ cat some_file | ./hsh
-.PP
-
-
-.SH OPTIONS
-The ghost shell does not take any options but does utilize \
-extern char **environ. 
-
- 
-
-
-
-.B
-.PP
-.SH BUILT-INS
-.PP
-.B There are two builtins in the shell.\
-
-.PP
-env - tells the program to display all of the environment variables with thier values. \
-Also a way to access the values through the shell.
-.PP
-exit - To exit out of the shell user can utilize exit. Exits program with status 0.\
-
-.SH SEE ALSO
-.I Nothing else
 .SH BUGS
-No Known Bugs
+No known bugs (jk).
+
+.SH DEVELOPER(s) NOTES
+
 .SH AUTHORS
-.B Carrie Ybay and Wendy Segura
+Andres Lopez, Wiston Venera
